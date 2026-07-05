@@ -1,0 +1,6 @@
+{
+  "name": "OpportunityAI Platform",
+  "description": "Multi-agent student matching and career mentorship platform powered by Google Gemini.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,52 @@
++-------------------------------------------------------------------------+
+|                      OpportunityAI Agent Workflow                       |
+|           (With Integrated MCP Server, CLI, and Security Layer)         |
++-------------------------------------------------------------------------+
+
+  [ External MCP Clients ]              [ Student User (Web) ]             [ Terminal CLI User ]
+           |                                     |                                   |
+           v                                     v                                   v
+  +-----------------+                    +---------------+                  +-----------------+
+  |   MCPServer     |                    |    app.py     |                  | cli/agents_cli  |
+  +--------+--------+                    +-------+-------+                  +--------+--------+
+           |                                     |                                   |
+           |                           (JSON HTTP / Web Sockets)                     |
+           |                                     |                                   |
+           +-------------------------------------+-----------------------------------+
+                                                 |
+                                                 v
+  +-------------------------------------------------------------------------------------------+
+  |                                     SECURITY LAYER                                        |
+  |  * Input Sanitization (sanitizer.py): Strips malicious inputs & HTML injections           |
+  |  * Simple Rate Limiting (rate_limiter.py): Limits API queries from rapid automated bots   |
+  |  * Authentication Checks (auth.py): Verifies API Keys & secure session tokens             |
+  +----------------------------------------------+--------------------------------------------+
+                                                 |
+                                                 v
+                                     +-----------------------+
+                                     |   CoordinatorAgent    | <==== Master Orchestrator
+                                     +-----------------------+
+                                      /     |         |     \
+                                     /      |         |      \
+                                    v       v         v       v
+                     +--------------+  +----+----+  +----+----+  +--------------+
+                     | ProfileAgent |  |SearchAgt|  |MatchAgt  |  | AdvisorAgent |
+                     +--------------+  +----+----+  +----+----+  +--------------+
+                            |               |            |              |
+                     (Extracts Resume)      |            |       (Follow-up Q&A)
+                            |               v            v              |
+                            |         +-----------+ +----------+        |
+                            +-------->|SearchSvc  | |ScoringSvc|        |
+                                      +-----------+ +----------+        |
+                                            |            |              |
+                                            v            v              |
+                                      [/data/*.json] (0-100% Fit)       |
+                                                         |              |
+                                                         v              v
+                                                    +-----------------------+
+                                                    |      ReportAgent      |
+                                                    +-----------------------+
+                                                                |
+                                                                v
+                                                    [ Personalized Report / ]
+                                                    [ Action-Plan Timeline  ]
